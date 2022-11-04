@@ -11,6 +11,7 @@ import org.springframework.batch.core.configuration.annotation.JobBuilderFactory
 import org.springframework.batch.core.configuration.annotation.JobScope;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepScope;
+import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.batch.item.database.JpaItemWriter;
@@ -59,6 +60,7 @@ public class TestJob {
     @Bean(name = JOB_NAME)
     public Job testJob() throws Exception{
         return jobBuilderFactory.get(JOB_NAME)
+                .incrementer(new RunIdIncrementer())
                 .start(testStep())
                 .build();
     }
@@ -81,7 +83,6 @@ public class TestJob {
         log.info("jobParameters :: {}", requestDateJobParameter.getLocalDateTime());
         Map<String,Object> parametersMap = new HashMap<>();
         parametersMap.put("currentDate", requestDateJobParameter.getLocalDateTime());
-
         return new JpaPagingItemReaderBuilder<Game>()
                 .pageSize(10)
                 .parameterValues(parametersMap)
