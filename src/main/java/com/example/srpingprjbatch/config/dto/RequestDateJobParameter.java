@@ -1,4 +1,4 @@
-package com.example.srpingprjbatch.dto;
+package com.example.srpingprjbatch.config.dto;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,6 +20,7 @@ public class RequestDateJobParameter {
 
     @Value("#{jobParameters[requestDate]}")
     public void setLocalDateTime(String requestDate) {
+        log.info("RequestDateJobParameter ::: {}", requestDate);
             this.localDateTime = StringUtils.hasText(requestDate) ?
                     LocalDateTime.parse(requestDate, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
                     : LocalDateTime.now();

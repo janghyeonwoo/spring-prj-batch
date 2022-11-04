@@ -1,8 +1,8 @@
 package com.example.srpingprjbatch.job;
 
+import com.example.srpingprjbatch.config.dto.UniqueRunIdIncrementer;
 import com.example.srpingprjbatch.domain.Game;
-import com.example.srpingprjbatch.dto.RequestDateJobParameter;
-import jdk.nashorn.internal.scripts.JO;
+import com.example.srpingprjbatch.config.dto.RequestDateJobParameter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.Job;
@@ -13,7 +13,6 @@ import org.springframework.batch.core.configuration.annotation.StepBuilderFactor
 import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.batch.item.ItemProcessor;
-import org.springframework.batch.item.ItemWriter;
 import org.springframework.batch.item.database.JpaItemWriter;
 import org.springframework.batch.item.database.JpaPagingItemReader;
 import org.springframework.batch.item.database.builder.JpaItemWriterBuilder;
@@ -21,18 +20,10 @@ import org.springframework.batch.item.database.builder.JpaPagingItemReaderBuilde
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.util.StringUtils;
 
-import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @Slf4j
@@ -60,7 +51,7 @@ public class TestJob {
     @Bean(name = JOB_NAME)
     public Job testJob() throws Exception{
         return jobBuilderFactory.get(JOB_NAME)
-                .incrementer(new RunIdIncrementer())
+                .incrementer(new UniqueRunIdIncrementer())
                 .start(testStep())
                 .build();
     }
