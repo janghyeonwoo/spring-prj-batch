@@ -75,7 +75,7 @@ public class TestJob {
         Map<String,Object> parametersMap = new HashMap<>();
         parametersMap.put("currentDate", requestDateJobParameter.getLocalDateTime());
         return new JpaPagingItemReaderBuilder<Game>()
-                .pageSize(10)
+                .pageSize(chunckSIZE)
                 .parameterValues(parametersMap)
                 .queryString("SELECT p FROM Game p WHERE p.createDate >= :currentDate")
                 .entityManagerFactory(entityManagerFactory)
