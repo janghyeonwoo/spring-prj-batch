@@ -1,12 +1,10 @@
 package com.example.srpingprjbatch.domain;
 
-import jdk.vm.ci.meta.Local;
 import lombok.Getter;
 import lombok.ToString;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 @Getter
 @Entity
