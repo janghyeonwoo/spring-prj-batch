@@ -1,6 +1,8 @@
 package com.example.srpingprjbatch.job;
 
 import com.example.srpingprjbatch.config.dto.UniqueRunIdIncrementer;
+import com.example.srpingprjbatch.config.listener.CustomJobListener;
+import com.example.srpingprjbatch.config.listener.CustomStepListener;
 import com.example.srpingprjbatch.domain.Game;
 import com.example.srpingprjbatch.config.dto.RequestDateJobParameter;
 import lombok.RequiredArgsConstructor;
@@ -53,6 +55,7 @@ public class TestJob {
         return jobBuilderFactory.get(JOB_NAME)
                 .incrementer(new UniqueRunIdIncrementer())
                 .start(testStep())
+                .listener(new CustomJobListener())
                 .build();
     }
 
@@ -64,6 +67,7 @@ public class TestJob {
                 .reader(reader())
                 .processor(processor())
                 .writer(writer())
+                .listener(new CustomStepListener())
                 .build();
     }
 
@@ -74,6 +78,7 @@ public class TestJob {
         log.info("jobParameters :: {}", requestDateJobParameter.getLocalDateTime());
         Map<String,Object> parametersMap = new HashMap<>();
         parametersMap.put("currentDate", requestDateJobParameter.getLocalDateTime());
+
         return new JpaPagingItemReaderBuilder<Game>()
                 .pageSize(chunckSIZE)
                 .parameterValues(parametersMap)
