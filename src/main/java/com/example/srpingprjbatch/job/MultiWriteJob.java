@@ -1,5 +1,7 @@
 package com.example.srpingprjbatch.job;
 
+import com.example.srpingprjbatch.config.dto.RequestDateJobParameter;
+import com.example.srpingprjbatch.config.dto.UniqueRunIdIncrementer;
 import com.example.srpingprjbatch.config.listener.CustomJobListener;
 import com.example.srpingprjbatch.config.listener.CustomStepListener;
 import com.example.srpingprjbatch.domain.dto.OrderDto;
@@ -37,18 +39,24 @@ public class MultiWriteJob {
 
     private final JobBuilderFactory jobBuilderFactory;
     private final StepBuilderFactory stepBuilderFactory;
-
+    private final RequestDateJobParameter requestDateJobParameter;
     private final DataSource dataSource;
 
     @Value("${chunckSize:10}")
     private int chunckSize;
+
+    @Bean(name = JOB_NAME + "jobParameters")
+    @JobScope
+    public RequestDateJobParameter requestDateJobParameter(){
+        return new RequestDateJobParameter();
+    }
 
 
     @Bean(name = JOB_NAME)
     public Job excuteMultiWriteJob() throws Exception {
         return jobBuilderFactory.get(JOB_NAME)
                 .start(excuteMultiWriteStep())
-                .incrementer(new RunIdIncrementer())
+                .incrementer(new UniqueRunIdIncrementer())
                 .listener(new CustomJobListener())
                 .build();
     }
@@ -85,7 +93,7 @@ public class MultiWriteJob {
     public JdbcBatchItemWriter<OrderDto> jdbcBatchItemWriter() {
         return new JdbcBatchItemWriterBuilder<OrderDto>()
                 .dataSource(dataSource)
-                .sql("INSET INTO my_order(user_name,price) VALUES (:user_name, :price)")
+                .sql("INSERT INTO my_order(user_name,price) VALUES (:userName, :price)")
                 .beanMapped()
                 .build();
     }
@@ -94,7 +102,7 @@ public class MultiWriteJob {
     @Bean
     public PagingQueryProvider pagingQueryProvider() throws Exception {
         SqlPagingQueryProviderFactoryBean queryProvider = new SqlPagingQueryProviderFactoryBean();
-        queryProvider.setSelectClause("SELECT ord_idx");
+        queryProvider.setSelectClause("SELECT ord_idx , price");
         queryProvider.setFromClause("FROM my_order");
         queryProvider.setWhereClause("WHERE user_name = :userName");
         queryProvider.setDataSource(dataSource);
