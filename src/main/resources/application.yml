@@ -24,7 +24,7 @@ spring:
       initialize-schema: never
     job:
       enabled: true
-      names: MULTI_WRITE_JOB
+      names: ${job.name:NONE}
 
   datasource:
     url: jdbc:log4jdbc:mysql://localhost:3306/community?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
