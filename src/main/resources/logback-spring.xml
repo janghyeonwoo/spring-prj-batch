@@ -1,0 +1,53 @@
+<configuration scan="true" scanPeriod="60 seconds">
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+    <include resource="org/springframework/boot/logging/logback/console-appender.xml" />
+
+    <!-- 변수 지정 -->
+    <property name="LOG_DIR" value="../../java_logs/batch" />
+    <property name="LOG_PATH_NAME" value="${LOG_DIR}/app.log" />
+
+    <!-- <logger name="jdbc" level="OFF"/>
+     <logger name="jdbc.sqlonly" level="DEBUG"/>
+     <logger name="jdbc.sqltiming" level="DEBUG"/>
+     <logger name="jdbc.audit" level="OFF"/>
+     <logger name="jdbc.resultset" level="OFF"/>
+     <logger name="jdbc.resultsettable" level="DEBUG"/>
+     <logger name="jdbc.connection" level="OFF"/>-->
+
+    <!-- Appender 설정 -->
+    <appender name="FILE_APPENDER" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_PATH_NAME}</file>
+        <!-- 일자별로 로그파일 적용하기 -->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_PATH_NAME}.%d{yyyyMMdd}</fileNamePattern>
+            <maxHistory>60</maxHistory> <!-- 일자별 백업파일의 보관기간 -->
+        </rollingPolicy>
+        <encoder>
+            <charset>UTF-8</charset>
+            <pattern>${CONSOLE_LOG_PATTERN}</pattern>
+        </encoder>
+    </appender>
+
+    <logger name="org.springframework.scheduling.quartz" level="DEBUG" additivity="false">
+        <appender-ref ref="FILE_APPENDER"/>
+    </logger>
+
+    <logger name="org.quartz" level="INFO" additivity="false">
+        <appender-ref ref="FILE_APPENDER"/>
+    </logger>
+
+    <logger name="com.zaxxer.hikari.HikariConfig" level="DEBUG">
+        <appender-ref ref="FILE_APPENDER"/>
+    </logger>
+
+    <logger name="com.zaxxer.hikari" level="TRACE">
+        <appender-ref ref="FILE_APPENDER"/>
+    </logger>
+
+    <root level="TRACE">
+        <appender-ref ref="FILE_APPENDER" />
+    </root>
+
+
+</configuration>
+

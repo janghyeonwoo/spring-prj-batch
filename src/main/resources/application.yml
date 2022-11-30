@@ -27,10 +27,14 @@ spring:
       names: ${job.name:NONE}
 
   datasource:
-    url: jdbc:log4jdbc:mysql://localhost:3306/community?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    url: jdbc:mysql://localhost:3306/community?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
     username: root
     password: 12345
-    driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  #WebApplication 동작 x
+  main:
+    web-application-type: none
 
 org:
   springframework:
