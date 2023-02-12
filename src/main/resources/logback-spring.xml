@@ -28,13 +28,12 @@
         </encoder>
     </appender>
 
-    <logger name="org.springframework.scheduling.quartz" level="DEBUG" additivity="false">
-        <appender-ref ref="FILE_APPENDER"/>
-    </logger>
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} [%-5p] [%F]%M\(%L\) : %m%n</pattern>
+        </layout>
+    </appender>
 
-    <logger name="org.quartz" level="INFO" additivity="false">
-        <appender-ref ref="FILE_APPENDER"/>
-    </logger>
 
     <logger name="com.zaxxer.hikari.HikariConfig" level="DEBUG">
         <appender-ref ref="FILE_APPENDER"/>
@@ -44,8 +43,9 @@
         <appender-ref ref="FILE_APPENDER"/>
     </logger>
 
-    <root level="TRACE">
+    <root level="INFO">
         <appender-ref ref="FILE_APPENDER" />
+        <appender-ref ref="STDOUT" />
     </root>
 
 

@@ -36,7 +36,7 @@ spring:
   main:
     web-application-type: none
 
-org:
-  springframework:
-    batch:
-      level: ERROR
+#org:
+#  springframework:
+#    batch:
+#      level: ERROR
