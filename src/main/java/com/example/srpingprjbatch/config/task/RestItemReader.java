@@ -28,7 +28,7 @@ public class RestItemReader implements ItemReader<List<SyncClub>> {
     @Override
     public List<SyncClub> read() throws Exception, UnexpectedInputException, ParseException, NonTransientResourceException {
         if(!first) return null;
-        String url = "";
+        String url = "https://test.icexp.co.kr/api/kakao/cbReceive/golfList";
 
         /**
          * JSON Array를 받으려고 제네릭을 사용하였는데 결과를 잘받는다고 생각을 했지만 잘받지 못하였다.. List<SyncClub> 타입으로 받을 거라 생각햇지만 그게 아닌 Linked Hash map로 받고 있었던것이다.
@@ -37,10 +37,9 @@ public class RestItemReader implements ItemReader<List<SyncClub>> {
          */
 
 
-        String response = httpUtil.callHttpBody(new SyncClub(), String.class, POST, url, MediaType.APPLICATION_JSON, MediaType.ALL);
-        Response res = new ObjectMapper().readValue(response,Response.class);
-        List<SyncClub> clubList = res.getResult();
+        Response response = httpUtil.callHttpBody(new SyncClub(), Response.class, POST, url, MediaType.APPLICATION_JSON, MediaType.ALL);
+
         first = false;
-        return clubList.size() > 0 ? clubList : null;
+        return response.getResult().size() > 0 ? response.getResult() : null;
     }
 }

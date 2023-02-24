@@ -9,6 +9,6 @@ import java.util.List;
 @Getter
 @Setter
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Response {
-    public List<SyncClub> result;
+public class Response<T> {
+    public List<T> result;
 }

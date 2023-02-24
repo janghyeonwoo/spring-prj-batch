@@ -63,7 +63,7 @@ public class RestApiJob {
     @Bean
     public RestItemWriter<SyncClub> itemWriter(){
         String sql = "INSERT INTO community.sync_club(club_no, addr) VALUES (:golfSeq,'AAA') " +
-                     "ON DUPLICATE KEY UPDATE addr = 'bbb'";
+                     "ON DUPLICATE KEY UPDATE addr = :tislYn";
 
         JdbcBatchItemWriter<SyncClub> jdbcBatchItemWriter = new JdbcBatchItemWriterBuilder<SyncClub>()
                 .dataSource(dataSource)
