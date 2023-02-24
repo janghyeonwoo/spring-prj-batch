@@ -1,9 +1,6 @@
 package com.example.srpingprjbatch.domain.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
@@ -12,10 +9,12 @@ import javax.persistence.Id;
 
 @Setter
 @Getter
+@ToString
 @AllArgsConstructor
 @NoArgsConstructor
 public class OrderDto {
     private Long ordIdx;
     private String userName;
     private int price;
+    private int status;
 }

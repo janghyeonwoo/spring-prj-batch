@@ -1,18 +1,18 @@
 <configuration scan="true" scanPeriod="60 seconds">
     <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
-    <include resource="org/springframework/boot/logging/logback/console-appender.xml" />
+    <include resource="org/springframework/boot/logging/logback/console-appender.xml"/>
 
     <!-- 변수 지정 -->
-    <property name="LOG_DIR" value="../../java_logs/batch" />
-    <property name="LOG_PATH_NAME" value="${LOG_DIR}/app.log" />
+    <property name="LOG_DIR" value="../../java_logs/batch"/>
+    <property name="LOG_PATH_NAME" value="${LOG_DIR}/app.log"/>
 
-    <!-- <logger name="jdbc" level="OFF"/>
-     <logger name="jdbc.sqlonly" level="DEBUG"/>
-     <logger name="jdbc.sqltiming" level="DEBUG"/>
-     <logger name="jdbc.audit" level="OFF"/>
-     <logger name="jdbc.resultset" level="OFF"/>
-     <logger name="jdbc.resultsettable" level="DEBUG"/>
-     <logger name="jdbc.connection" level="OFF"/>-->
+<!--    <logger name="jdbc" level="OFF"/>-->
+<!--    <logger name="jdbc.sqlonly" level="DEBUG"/>-->
+<!--    <logger name="jdbc.sqltiming" level="DEBUG"/>-->
+<!--    <logger name="jdbc.audit" level="OFF"/>-->
+<!--    <logger name="jdbc.resultset" level="OFF"/>-->
+<!--    <logger name="jdbc.resultsettable" level="DEBUG"/>-->
+<!--    <logger name="jdbc.connection" level="OFF"/>-->
 
     <!-- Appender 설정 -->
     <appender name="FILE_APPENDER" class="ch.qos.logback.core.rolling.RollingFileAppender">
@@ -28,24 +28,31 @@
         </encoder>
     </appender>
 
-    <logger name="org.springframework.scheduling.quartz" level="DEBUG" additivity="false">
-        <appender-ref ref="FILE_APPENDER"/>
-    </logger>
-
-    <logger name="org.quartz" level="INFO" additivity="false">
-        <appender-ref ref="FILE_APPENDER"/>
-    </logger>
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} [%-5p] [%F]%M\(%L\) : %m%n</pattern>
+        </layout>
+    </appender>
 
     <logger name="com.zaxxer.hikari.HikariConfig" level="DEBUG">
         <appender-ref ref="FILE_APPENDER"/>
     </logger>
 
-    <logger name="com.zaxxer.hikari" level="TRACE">
+    <logger name="com.zaxxer.hikari" level="DEBUG">
         <appender-ref ref="FILE_APPENDER"/>
     </logger>
 
-    <root level="TRACE">
-        <appender-ref ref="FILE_APPENDER" />
+    <logger name="org.springframework.batch">
+        <level value="TRACE"/>
+    </logger>
+
+    <logger name="org.springframework.jdbc">
+        <level value="TRACE"/>
+    </logger>
+
+    <root level="INFO">
+        <!--        <appender-ref ref="FILE_APPENDER" />-->
+        <appender-ref ref="STDOUT"/>
     </root>
 
 

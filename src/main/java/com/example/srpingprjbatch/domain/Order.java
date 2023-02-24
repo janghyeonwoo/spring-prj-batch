@@ -22,5 +22,8 @@ public class Order {
     @Column(name = "price")
     private int price;
 
+    @Column(name = "status")
+    private int status;
+
 
 }
